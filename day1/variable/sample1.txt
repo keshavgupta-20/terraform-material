@@ -1,0 +1,1 @@
+Welcome to Terraform! Let's learn about variables.
