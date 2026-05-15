@@ -1,0 +1,49 @@
+variable "machine_type" {
+    type = string
+    description = "GCP vm machine type"
+    default = "e2-medium"  
+}
+variable "enable_monitoring"{
+    type = bool
+    description = "Enable monitoring for the VM instance"
+    default = true
+  
+}
+
+variable "enable_monitoring"{
+    type = bool
+    description = "Enable monitoring"
+    default = true
+
+}
+
+variable "zones"{
+    type = List(string)
+    default = [
+        "us-central1-a",
+        "us-central1-b"
+    ]
+}
+variable "labels" {
+    type = map(string)
+
+    default = {
+        env = "dev"
+        team = "cloud"
+    }
+}
+variable "vm_config" {
+    type = object({
+        machine_type = string
+        zone = string
+        disk_size = number
+        labels = optional(map(string))
+    })
+    default = {
+        machine_type = "e2-medium"
+        zone = "us-central1-a"
+        disk_size = 100
+    }
+}
+
+
