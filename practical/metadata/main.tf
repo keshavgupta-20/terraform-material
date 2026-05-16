@@ -13,5 +13,19 @@ resource "google_compute_subnetwork" "subnets" {
     private_ip_google_access = (
         count.index %2 ==0
     )
-
+}
+resource "google_compute_instance" "vm-1"{
+    name = "my-instance"
+    machine_type = "e2-micro"
+    zone = "us-central1-a"
+    boot_disk {
+        initialize_params {
+            image = "debian-cloud/debian-12"
+        }
+    }
+    network_interface {
+        network    = google_compute_network.vpc_network.name
+        subnetwork = google_compute_subnetwork.subnets[1].name
+        
+    }
 }
