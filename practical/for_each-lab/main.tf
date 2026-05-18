@@ -6,8 +6,8 @@ resource "google_compute_network" "custom_vpc" {
 resource "google_compute_subnetwork" "vpc_subnets" {
   for_each      = var.subnets
   
-  name          = each.key    # Takes "subnet-a", "subnet-b", etc.
-  ip_cidr_range = each.value  # Takes "10.0.1.0/24", etc.
+  name          = each.key    
+  ip_cidr_range = each.value  
   region        = var.region
   network       = google_compute_network.custom_vpc.id
 }
@@ -44,36 +44,28 @@ resource "google_compute_firewall" "multiport_firewall" {
   
   source_ranges = ["0.0.0.0/0"]
 }
-# ---------------------------------------------------------------
-# LAB 6 — Conditional Resource Creation with for_each
-# Only creates firewall rules where environment = "prod"
-# local.prod_firewall_rules filters the input map (see locals.tf)
-# ---------------------------------------------------------------
-resource "google_compute_firewall" "prod_firewall" {
-  for_each = local.prod_firewall_rules   # filtered map — only prod entries
 
-  name    = each.key                     # e.g. "allow-http-prod"
+resource "google_compute_firewall" "prod_firewall" {
+  for_each = local.prod_firewall_rules   
+
+  name    = each.key                    
   network = google_compute_network.custom_vpc.name
 
   allow {
     protocol = "tcp"
-    ports    = [each.value.port]         # port comes from the object value
+    ports    = [each.value.port]        
   }
 
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["env-prod"]
 }
 
-# ---------------------------------------------------------------
-# LAB 7 — Module Iteration with for_each
-# Calls the reusable ./modules/vm module once per entry in var.module_vms
-# Each instance gets its own name, machine_type, zone, and subnet
-# ---------------------------------------------------------------
+
 module "vm_instances" {
   for_each = var.module_vms
   source   = "./modules/vm"
 
-  vm_name       = each.key                                                      # e.g. "mod-web"
+  vm_name       = each.key                                                      
   machine_type  = each.value.machine_type
   zone          = each.value.zone
   network_id    = google_compute_network.custom_vpc.id

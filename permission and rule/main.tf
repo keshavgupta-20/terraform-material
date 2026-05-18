@@ -15,3 +15,14 @@ resource "google_project_iam_member" "compute_admin" {
   role    = "roles/compute.admin"
   member  = "serviceAccount:terraform-gcp-sa@learn-terraform-496012.iam.gserviceaccount.com"
 }
+resource "google_project_service" "project" {
+  project = "learn-terraform-496012"
+  service = "sqladmin.googleapis.com"
+   disable_on_destroy = false
+  }
+
+resource "google_project_iam_member" "sql_admin" {
+  project = "learn-terraform-496012"
+  role    = "roles/cloudsql.admin"
+  member  = "serviceAccount:terraform-gcp-sa@learn-terraform-496012.iam.gserviceaccount.com"
+}
