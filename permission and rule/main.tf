@@ -26,3 +26,13 @@ resource "google_project_iam_member" "sql_admin" {
   role    = "roles/cloudsql.admin"
   member  = "serviceAccount:terraform-gcp-sa@learn-terraform-496012.iam.gserviceaccount.com"
 }
+resource "google_project_iam_member" "secret_manager" {
+  project = "learn-terraform-496012"
+  role    = "roles/secretmanager.admin"
+  member  = "serviceAccount:terraform-gcp-sa@learn-terraform-496012.iam.gserviceaccount.com"
+}
+resource "google_project_service" "project1" {
+  project = "learn-terraform-496012"
+  service = "secretmanager.googleapis.com"
+  disable_on_destroy = false
+}
