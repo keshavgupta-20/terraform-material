@@ -26,10 +26,5 @@ resource "google_compute_instance" "vm-1"{
         subnetwork = google_compute_subnetwork.subnet-1.id
     }
 }
-# removed {
-#     from  = google_compute_instance.vm-1
-#     lifecycle {
-#         destroy = false
-#     }
-# }
+
 

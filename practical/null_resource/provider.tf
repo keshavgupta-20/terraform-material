@@ -1,13 +1,13 @@
 terraform {
-  required_providers {
-    google = {
-        source = "hashicorp/google"
-        version = "7.32.0"
+    required_providers {
+        google = {
+            version = "7.32.0"
+            source = "hashicorp/google"
+        }
     }
-  }
+
 }
 provider "google" {
-  # Configuration options
   project = "learn-terraform-496012"
   region  = "us-central1"
   zone    = "us-central1-a"  
